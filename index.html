@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KiteMCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #ffffff;
+            --text-light: #000000;
+            --bg-dark: #000000;
+            --text-dark: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0.5rem auto;
+        }
+
+        .token-box {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--text-dark);
+            font-weight: bold;
+        }
+
+        .toggle {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <h1>KiteMCP Redirect</h1>
+    <p>This page captures the <strong>request_token</strong> after login through Zerodha's OAuth process.</p>
+
+    <div class="token-box">
+        <p id="token">Waiting for redirect token...</p>
+    </div>
+
+    <div class="toggle" onclick="toggleMode()">Toggle Light/Dark Mode</div>
+
+    <div class="disclaimer">
+        <h2>This is a personal project. Use at your own risk. Not affiliated with Zerodha.</h2>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('request_token');
+        const tokenBox = document.getElementById("token");
+
+        if (token) {
+            tokenBox.textContent = token;
+        } else {
+            tokenBox.textContent = "No request_token found in the URL.";
+        }
+
+        function toggleMode() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+
+            if (isDark) {
+                body.classList.remove('dark');
+                body.style.backgroundColor = 'var(--bg-light)';
+                body.style.color = 'var(--text-light)';
+                document.querySelector('.token-box').style.borderColor = '#000';
+            } else {
+                body.classList.add('dark');
+                body.style.backgroundColor = 'var(--bg-dark)';
+                body.style.color = 'var(--text-dark)';
+                document.querySelector('.token-box').style.borderColor = '#fff';
+            }
+        }
+    </script>
+</body>
+</html>
